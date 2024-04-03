@@ -1,3 +1,4 @@
+import abc
 import pickle
 from datetime import datetime, timedelta
 from pathlib import Path
@@ -113,7 +114,17 @@ class AddressBook:
         return upcoming_birthdays
 
 
-class UI:
+class UI(abc.ABC):
+    @abc.abstractmethod
+    def get_input(self, prompt):
+        pass
+
+    @abc.abstractmethod
+    def display_info(self, info):
+        pass
+
+
+class ConsoleUI(UI):
     def get_input(self, prompt):
         return input(prompt)
 
@@ -262,7 +273,7 @@ def load_data(filename="addressbook.pkl"):
 
 
 def main():
-    bot = Bot(UI())
+    bot = Bot(ConsoleUI())
     bot.run()
 
 
